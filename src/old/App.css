@@ -1,0 +1,98 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.Wrapper: {
+    backgroundColor: '#22447b';
+  }
+
+.Container: {
+  maxWidth: '40%';
+  minWidth: '40%';
+  maxHeight: '100%';
+  marginTop: '15%';
+  backgroundColor: '#ffffff';
+  padding: 10;
+  borderRadius: '15px';
+  alignSelf: 'center';
+},
+
+.User: {
+  flex: 1;
+  flexDirection: 'row';
+  backgroundColor: '#ffffff';
+  borderWidth: 0;
+  margin: 15;
+},
+
+.ThumbStyle: {
+  borderRadius: '50%';
+  width: 65;
+  height: 65;
+},
+
+.UserInfo: {
+  flex: 1;
+  flexDirection: 'column';
+  margin: 12;
+  padding: 5;
+},
+
+.Banner: {
+  fontSize: 48;
+  fontWeight: 'bold';
+},
+
+.ProfileTop: {
+  flex: 1;
+  flexDirection: 'row';
+  marginLeft: 30;
+},
+
+.ProfPic: {
+  borderRadius: '3%';
+  borderWidth: 10;
+  borderColor: 'black';
+  height: 200;
+  width: 200;
+},
+
+.ProfileTopTextContainer: {
+  flexDirection: 'column';
+  margin: 20;
+  justifyContent: 'center';
+},
+
+.ProfileTopText: {
+  fontSize: 20;
+}
