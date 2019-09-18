@@ -1,3 +1,15 @@
+FORWARD:
+
+The purpose of the App is to display a filterable list of spells using the dnd5eapi.
+api: dnd5eapi.co
+basic call: http://www.dnd5eapi.co/api/spells/
+
+The main issue is that the spell list returned from the above call is just names and urls to another api call where the spell details are stored.
+
+I'm trying to use this list from the basic call to make a bunch of calls to the urls in the initial list.
+
+Currently, the list doesn't load unless one of the filters is toggled, then doesn't filter anything after that.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

@@ -35,14 +35,45 @@ const styles = StyleSheet.create({
 })
 
 class SpellCard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoaded: false,
+      error: null,
+      spellName: this.props.name,
+      url: this.props.url,
+      spellData: {},
+      expanded: false,
+    }
+  }
+
+  componentDidMount() {
+    fetch(this.state.url)
+    .then(res => res.json())
+    .then(
+      (result) => {
+        this.setState({
+          isLoaded: true,
+          spellData: result,
+        });
+      },
+      (error) => {
+        this.setState({
+          isLoaded: true,
+          error
+        });
+      }
+    )
+    //console.log(this.state.spellData)
+  }
 
   higherLevel() {
-    if (this.props.higher_level != null) {
+    if (this.state.spellData.higher_level != null) {
       //console.log("higher level detected for "+this.state.spellData.name)
       return (
         <React.Fragment>
           <Text style={{fontStyle: 'italic', fontFamily: 'arial'}}>At Higher Levels:</Text>
-          <Text>{this.props.higher_level}</Text>
+          <Text>{this.state.spellData.higher_level}</Text>
         </React.Fragment>
       )
     } else {
@@ -51,8 +82,8 @@ class SpellCard extends Component {
   }
 
   checkSchool() {
-    if (this.props.school != null) {
-      return this.props.school.name
+    if (this.state.spellData.school != null) {
+      return this.state.spellData.school.name
     } else {
       return
     }
@@ -61,38 +92,37 @@ class SpellCard extends Component {
   formatSchoolAndLevel() {
     const school = this.checkSchool();
     let string;
-    if (this.props.level === 0){
+    if (this.state.spellData.level === 0){
       string = (school+' Cantrip');
     } else {
-      string = ('Level '+this.props.level+' '+school);
+      string = ('Level '+this.state.spellData.level+' '+school);
     }
 
-    if (this.props.ritual !== 'no') {
+    if (this.state.spellData.ritual !== 'no') {
       string.concat(' (ritual)');
     }
     return string
   }
 
   expandedInfo() {
-    return null
-  //   if (this.state.expanded) {
-  //     var classList = this.makeClassList()
-  //     var source = this.getSource()
-  //     return(
-  //       <React.Fragment>
-  //         <View style={styles.BlockSpacing}>
-  //           <Text><b>Eligible Classes: </b>{classList}</Text>
-  //           <Text><b>Source: </b>{source}</Text>
-  //         </View>
-  //       </React.Fragment>
-  //     )
-  //   } else {
-  //     return
-  //   }
+    if (this.state.expanded) {
+      var classList = this.makeClassList()
+      var source = this.getSource()
+      return(
+        <React.Fragment>
+          <View style={styles.BlockSpacing}>
+            <Text><b>Eligible Classes: </b>{classList}</Text>
+            <Text><b>Source: </b>{source}</Text>
+          </View>
+        </React.Fragment>
+      )
+    } else {
+      return
+    }
   }
 
   getSource() {
-    var source = this.props.page
+    var source = this.state.spellData.page
     if (source.includes('phb')) {
       source = source.replace('phb', "Player's Handbook, pg.")
     } else if (source.includes('xge')) {
@@ -102,7 +132,7 @@ class SpellCard extends Component {
   }
 
   makeClassList() {
-    const classes = this.props.classes
+    const classes = this.state.spellData.classes
     var classList = ""
     for (var i=0; i<classes.length; i++) {
       if (classList !== ""){
@@ -114,15 +144,14 @@ class SpellCard extends Component {
   }
 
   expand() {
-    return null
-  //   const expanded = (this.state.expanded) ? false : true;
-  //   this.setState({
-  //     expanded: expanded
-  //   })
+    const expanded = (this.state.expanded) ? false : true;
+    this.setState({
+      expanded: expanded
+    })
   }
 
   render() {
-    let spellData = this.props.details
+    let spellData = this.state.spellData
     return (
       <View style={styles.SpellCardContainer}>
         <View style={styles.BlockSpacing}>
