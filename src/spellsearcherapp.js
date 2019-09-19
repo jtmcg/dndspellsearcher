@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import SpellCard from './spellcard';
+import axios from 'axios';
+
 // import {
 //   StyleSheet,
 //   View,
@@ -9,6 +11,7 @@ import SpellCard from './spellcard';
 //import ReactDOM from 'react-dom';
 
 class App extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -39,101 +42,57 @@ class App extends Component {
     this._changeType = this._changeType.bind(this);
   }
 
-//handle the api calls. First we request a list of spells, which only contains
-//spell names and urls to spell details in the api. Then, after we have the list
-//we call the api again for each spell to get a list of the details.
   componentDidMount() {
-    const url = this.state.url+this.state.selectedClass;
-    fetch(url) //This is the call to the api requesting a list of urls for the next set of api calls
-      .then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            spellList: result.results
-          });
-        },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      )
-      .then(() => this.loadSpellData()) //this is where I call the api again to get the details not in the previous list
-      .then(
-        (result) => {
-          this.setState({  //I think the problem is here with the asynchronicity of setState
-            spellData: result,
-            detailsLoaded: true,
-          });
-        });
+    this.createSpellList();
   }
 
-//method to load individual spell data through an api call.
-//the url is contained in this.state.spellList[i].url
-//which was populated by the previous api call
-  async loadSpellData() {
-    const spellList = this.state.spellList;
-    var spellData = [];
-
-    for (var i=0; i<spellList.length; i++) {
-      fetch(spellList[i].url)
-        .then(res => res.json())
-        .then(
-          (result) => {
-            spellData.push(result)
-          });
-      }
-    return spellData
+  async createSpellList() {
+    const spells = await this.getSpells();
+    const spellList = await this.getSpellDetails(spells);
+	  this.setState({ isLoaded: true, spellList, detailsLoaded: true });
   }
 
-//prop method to change selectedClass in state
+  async getSpells() {
+	  const url = this.state.url + this.state.selectedClass;
+	  const { data } = await axios.get(url);
+	  return data.results;
+  }
+
+  async getSpellDetails(spells) {
+    const spellPromises = spells.map(spell => axios.get(spell.url));
+    const spellDetails = await Promise.all(spellPromises);
+    const spellList = spells.map((spell, idx) => ({ ...spell, ...spellDetails[idx].data }));
+    return spellList;
+  }
+
   _changeClass(classChangeEvent) {
-    const newClass = classChangeEvent.target.value
-    this.setState({
-      selectedClass: newClass,
-    });
+    const newClass = classChangeEvent.target.value;
+	  // TODO :: need to use updated info to filter spellList into new prop of filteredSpells
+    this.setState({ selectedClass: newClass });
   }
 
-//prop method to toggle selected in this.state.levels[i]
   _toggleLevel(levelChangeEvent) {
     //event.target.value contains the level of the state.levels[i] that was changed. This is just an integer, so use it as the selector of the levels list
     const toggledLevel = levelChangeEvent.target.value;
-    var levels = this.state.selectedLevels;
+    const levels = this.state.selectedLevels;
     levels[toggledLevel].selected = !levels[toggledLevel].selected;
-    this.setState({
-      selectedLevels: levels
-    });
+    // TODO :: need to use updated info to filter spellList into new prop of filteredSpells
+    this.setState({ selectedLevels: levels });
   }
 
-//prop method to change selectedType in state
   _changeType(typeChangeEvent) {
-    const newType = typeChangeEvent.target.value
-    this.setState({
-      selectedType: newType,
-    });
+    const newType = typeChangeEvent.target.value;
+	  // TODO :: need to use updated info to filter spellList into new prop of filteredSpells
+    this.setState({ selectedType: newType });
   }
 
   render() {
-    const error = this.state.error;
-    const isLoaded = this.state.isLoaded;
-    const detailsLoaded = this.state.detailsLoaded;
+    const { error, isLoaded, detailsLoaded } = this.state;
 
-    if (error) {
-      return <div>Error: {error.message}</div>;
-    } else if (!(isLoaded && detailsLoaded)) {
-      return <div>Loading...</div>;
-    } else {
+    if (error) return <div>Error: {error.message}</div>;
+    if (!(isLoaded && detailsLoaded)) return <div>Loading...</div>;
 
-      var spellCards = []
-      const spellData = this.state.spellData;
-
-      for (var j=0; j<this.state.spellData.length; j++) {
-        var spellCard = <SpellCard details={this.state.spellData[j]}/>
-        spellCards.push(spellCard)
-      }
-    }
+    const spellCards = this.state.spellList.map(spell => <SpellCard details={spell}/>);
 
     return(
       <div className="app-container">
