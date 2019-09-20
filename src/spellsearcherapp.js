@@ -2,14 +2,7 @@ import React, {Component} from 'react';
 import SpellCard from './spellcard';
 import './index.css';
 import axios from 'axios';
-
-// import {
-//   StyleSheet,
-//   View,
-//   Image,
-//   TouchableHighlight,
-// } from 'react-native';
-//import ReactDOM from 'react-dom';
+import dndLogo from './assets/dnd-app-banner.png';
 
 class App extends Component {
 
@@ -95,24 +88,34 @@ class App extends Component {
 
     return(
       <div className="app-container">
+        <div className="title-bar">
+          <img src={dndLogo} className="title-image"/>
+        </div>
         <div className="filter-bar">
-          <ClassSelector
-            selectedClass={this.state.selectedClass}
-            changeClass={(classChangeEvent) => this._changeClass(classChangeEvent)}
-            key="classSelector"
-          />
-          <LevelToggle
-            selectedLevels={this.state.selectedLevels}
-            toggleLevel={(levelChangeEvent) => this._toggleLevel(levelChangeEvent)}
-            key="levelToggle"
-          />
-          <TypeSelector
-            selectedType={this.state.selectedType}
-            changeType={(typeChangeEvent) => this._changeType(typeChangeEvent)}
-            key="typeSelector"
-          />
+          <div className="class-and-type-filter">
+            <div className="class-selector">
+              <ClassSelector
+                selectedClass={this.state.selectedClass}
+                changeClass={(classChangeEvent) => this._changeClass(classChangeEvent)}
+                key="classSelector"
+              />
+            </div>
+            <div className="type-selector">
+              <TypeSelector
+                selectedType={this.state.selectedType}
+                changeType={(typeChangeEvent) => this._changeType(typeChangeEvent)}
+                key="typeSelector"
+              />
+            </div>
           </div>
-
+          <div className="level-filter">
+            <LevelToggle
+              selectedLevels={this.state.selectedLevels}
+              toggleLevel={(levelChangeEvent) => this._toggleLevel(levelChangeEvent)}
+              key="levelToggle"
+            />
+          </div>
+        </div>
         <div className="spell-list">
           <FilteredSpellList
             spellList={this.state.spellList}
@@ -128,9 +131,9 @@ class App extends Component {
 
 function ClassSelector(props) {
   return(
-    <form>
+    <form className="dropdown-form">
       <label>
-      Filter by Class:
+      Showing Spells From Class:
         <select value={props.selectedClass} onChange={props.changeClass}>
           <option value=''>All</option>
           <option value='Barbarian'>Barbarian</option>
@@ -170,17 +173,17 @@ function LevelToggle(props) {
   }
 
   return(
-    <form>
-      {radioButtons}
+    <form className="button-form">
+      of Levels: {radioButtons}
     </form>
   )
 }
 
 function TypeSelector(props) {
   return (
-    <form>
+    <form className="dropdown-form">
       <label>
-      Filter by Spell School (Type):
+         and School (Type):
         <select value={props.selectedType} onChange={props.changeType}>
           <option value=''>All</option>
           <option value='Abjuration'>Abjuration</option>
@@ -232,9 +235,6 @@ function FilteredSpellList(props) {
 
   return (
     <div>
-      <div>
-        <h1>Showing spells from class: {selectedClass}, levels: {levelsString} and type: {selectedType}</h1>
-      </div>
       {spellCards}
     </div>
   )

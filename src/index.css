@@ -1,25 +1,82 @@
 body {
   margin: 0;
-  font-family: serif;
+  font-family: cursive;
+  background-image: url('./assets/background.png');
+  background-size: 100%;
+  background-attachment: fixed;
+  background-position: bottom;
 }
 
 p {
   font-size: 16;
 }
 
+.dropdown-form {
+  font-family: inherit;
+  min-height: 100%;
+  font-size: 24;
+}
+
 .app-container {
   align-items: center;
   margin: auto;
-  padding: 10%;
+  padding-left: 10%;
+  padding-right: 10%;
+  display: inline-block;
+  position: sticky;
+}
+
+.title-bar {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.title-image {
+  display: block;
+  margin: auto;
+}
+
+.filter-bar {
+  color: rgb(236, 33, 39);
+  align-content: center;
+  display: inline-block;
+  font-size: 2.5em;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 0px 0px 8px 8px;
+  padding: 1%;
+  min-width: 98%;
+  position: sticky;
+  top: 0px;
+  z-index: 600;
+  margin-bottom: 2%;
+}
+
+.class-and-type-filter {
+  display: inline-block;
+  text-align: center;
+  min-width: 100%;
+}
+
+.class-selector {
+  display: inline-block;
+  font-size: 24;
+}
+
+.type-selector {
   display: inline-block;
 }
 
-.block-spacing {
-  margin-bottom: 0.8em;
+.level-filter {
+  text-align: center;
+}
+
+.spell-list {
+  position: relative;
+  z-index: 500;
 }
 
 .spell-card-container {
   background-image: url('./assets/card-background.jpg');
+  background-size: 100%;
   align-self: 'center';
   border-radius: 8px;
   min-width: 100%;
@@ -28,7 +85,7 @@ p {
 
 .spell-card-container-header {
   display: inline-block;
-  min-width: 100%;
+  min-width: 98%;
   padding: 1%;
 }
 
@@ -59,6 +116,30 @@ p {
   border-radius: 8px;
 }
 
+.line-break-flourish {
+  display: inline-block;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.line-break-flourish-left {
+  display: inline-block;
+  max-width: 48%;
+  vertical-align: middle;
+}
+
+.line-break-flourish-image {
+  display: inline-block;
+  max-width: 2%;
+  vertical-align: middle;
+}
+
+.line-break-flourish-right {
+  display: inline-block;
+  max-width: 48%;
+  vertical-align: middle;
+}
+
 .spell-details {
-  
+  padding: 1%;
 }

@@ -1,27 +1,23 @@
 import React, {Component} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableHighlight,
-} from 'react-native';
+// import {
+//   StyleSheet,
+// } from 'react-native';
 import './index.css';
-import background from './assets/card-background.jpg';
 
-const styles = StyleSheet.create({
-
-  ExpandButton: {
-    backgroundColor: 'white',
-    padding: 10,
-    alignSelf: 'center',
-    borderTopLeftRadius: '5px',
-    borderTopRightRadius: '5px',
-    borderBottomLeftRadius: '50px',
-    borderBottomRightRadius: '50px',
-    minWidth: '100%',
-  },
-
-})
+// const styles = StyleSheet.create({
+//
+//   ExpandButton: {
+//     backgroundColor: 'white',
+//     padding: 10,
+//     alignSelf: 'center',
+//     borderTopLeftRadius: '5px',
+//     borderTopRightRadius: '5px',
+//     borderBottomLeftRadius: '50px',
+//     borderBottomRightRadius: '50px',
+//     minWidth: '100%',
+//   },
+//
+// })
 
 class SpellCard extends Component {
 
@@ -81,6 +77,19 @@ class SpellCard extends Component {
     return <img src={image} className="spell-school-image"/>
   }
 
+  createLineBreakFlourish() {
+    const assets = require.context('./assets', true);
+    const source = "./"+this.props.details.school.name+"-flourish.png"
+    const image = assets(source)
+    return (
+      <React.Fragment>
+        <img src={assets('./line-break-flourish-left.png')} className="line-break-flourish-left"/>
+        <img src={image} className="line-break-flourish-image"/>
+        <img src={assets('./line-break-flourish-right.png')} className="line-break-flourish-right"/>
+      </React.Fragment>
+        )
+  }
+
   render() {
     let spellData = this.props.details
     return (
@@ -90,11 +99,11 @@ class SpellCard extends Component {
             {this.returnImage()}
           </div>
           <div className="spell-stats-inline">
-            <div className="block-spacing">
+            <div>
               <h2>{spellData.name}</h2>
               <p className="spell-level-and-school">{this.formatSchoolAndLevel()}</p>
             </div>
-            <div className="block-spacing">
+            <div>
               <p><b>Casting Time: </b>{spellData.casting_time}<br/>
               <b>Range: </b>{spellData.range}<br/>
               <b>Components: </b>{spellData.components} ({spellData.material})<br/>
@@ -102,11 +111,14 @@ class SpellCard extends Component {
             </div>
           </div>
         </div>
+        <div className="line-break-flourish">
+          {this.createLineBreakFlourish()}
+        </div>
         <div className="spell-details">
-          <div className="block-spacing">
-            <p>{spellData.desc}</p>
+          <div>
+            <p><b>Description: </b>{spellData.desc}</p>
           </div>
-          <div className="block-spacing">
+          <div>
             {this.higherLevel()}
           </div>
         </div>
