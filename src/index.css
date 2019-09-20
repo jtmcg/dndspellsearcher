@@ -1,0 +1,64 @@
+body {
+  margin: 0;
+  font-family: serif;
+}
+
+p {
+  font-size: 16;
+}
+
+.app-container {
+  align-items: center;
+  margin: auto;
+  padding: 10%;
+  display: inline-block;
+}
+
+.block-spacing {
+  margin-bottom: 0.8em;
+}
+
+.spell-card-container {
+  background-image: url('./assets/card-background.jpg');
+  align-self: 'center';
+  border-radius: 8px;
+  min-width: 100%;
+  margin-bottom: 2%;
+}
+
+.spell-card-container-header {
+  display: inline-block;
+  min-width: 100%;
+  padding: 1%;
+}
+
+.spell-level-and-school {
+  font-size: 14;
+  margin-top: -3%;
+  font-style: italic;
+}
+
+.spell-stats-inline {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 1%;
+}
+
+.spell-school-image-div {
+  display: inline-block;
+  max-width: 20%;
+  max-height: 20%;
+  vertical-align: middle;
+}
+
+.spell-school-image {
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 8px;
+}
+
+.spell-details {
+  
+}

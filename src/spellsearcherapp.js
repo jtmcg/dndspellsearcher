@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import SpellCard from './spellcard';
+import './index.css';
 import axios from 'axios';
 
 // import {
@@ -33,7 +34,7 @@ class App extends Component {
       ],
       selectedType: '',                   //used as the spell school filter, i.e. Transmutation
       spellList: [],              //used to store the list of active spells based on filters
-      spellData: [],              //used to store the data of each spell in the active spell list
+      filteredSpells: [],              //used to store the data of each spell in the active spell list
       url: 'http://www.dnd5eapi.co/api/spells/',
     }
 
@@ -49,7 +50,7 @@ class App extends Component {
   async createSpellList() {
     const spells = await this.getSpells();
     const spellList = await this.getSpellDetails(spells);
-	  this.setState({ isLoaded: true, spellList, detailsLoaded: true });
+	  this.setState({ isLoaded: true, spellList: spellList, filteredSpells: spellList, detailsLoaded: true });
   }
 
   async getSpells() {
@@ -92,8 +93,6 @@ class App extends Component {
     if (error) return <div>Error: {error.message}</div>;
     if (!(isLoaded && detailsLoaded)) return <div>Loading...</div>;
 
-    const spellCards = this.state.spellList.map(spell => <SpellCard details={spell}/>);
-
     return(
       <div className="app-container">
         <div className="filter-bar">
@@ -115,12 +114,12 @@ class App extends Component {
           </div>
 
         <div className="spell-list">
-          <ListTitle
+          <FilteredSpellList
+            spellList={this.state.spellList}
             selectedClass={this.state.selectedClass}
             selectedLevels={this.state.selectedLevels}
             selectedType={this.state.selectedType}
           />
-          {spellCards}
         </div>
       </div>
     )
@@ -134,17 +133,17 @@ function ClassSelector(props) {
       Filter by Class:
         <select value={props.selectedClass} onChange={props.changeClass}>
           <option value=''>All</option>
-          <option value='barbarian'>Barbarian</option>
-          <option value='bard'>Bard</option>
-          <option value='cleric'>Cleric</option>
-          <option value='druid'>Druid</option>
-          <option value='fighter'>Fighter</option>
-          <option value='monk'>Monk</option>
-          <option value='paladin'>Paladin</option>
-          <option value='ranger'>Ranger</option>
-          <option value='sorcerer'>Sorcerer</option>
-          <option value='warlock'>Warlock</option>
-          <option value='wizard'>Wizard</option>
+          <option value='Barbarian'>Barbarian</option>
+          <option value='Bard'>Bard</option>
+          <option value='Cleric'>Cleric</option>
+          <option value='Druid'>Druid</option>
+          <option value='Fighter'>Fighter</option>
+          <option value='Monk'>Monk</option>
+          <option value='Paladin'>Paladin</option>
+          <option value='Ranger'>Ranger</option>
+          <option value='Sorcerer'>Sorcerer</option>
+          <option value='Warlock'>Warlock</option>
+          <option value='Wizard'>Wizard</option>
         </select>
       </label>
     </form>
@@ -184,38 +183,60 @@ function TypeSelector(props) {
       Filter by Spell School (Type):
         <select value={props.selectedType} onChange={props.changeType}>
           <option value=''>All</option>
-          <option value='abjuration'>Abjuration</option>
-          <option value='conjuration'>Conjuration</option>
-          <option value='divination'>Divination</option>
-          <option value='enchantment'>Enchantment</option>
-          <option value='evocation'>Evocation</option>
-          <option value='illusion'>Illusion</option>
-          <option value='necromancy'>Necromancy</option>
-          <option value='transmutation'>Transmutation</option>
-          <option value='universal'>Universal (Wizards only)</option>
+          <option value='Abjuration'>Abjuration</option>
+          <option value='Conjuration'>Conjuration</option>
+          <option value='Divination'>Divination</option>
+          <option value='Enchantment'>Enchantment</option>
+          <option value='Evocation'>Evocation</option>
+          <option value='Illusion'>Illusion</option>
+          <option value='Necromancy'>Necromancy</option>
+          <option value='Transmutation'>Transmutation</option>
+          <option value='Universal'>Universal (Wizards only)</option>
         </select>
       </label>
     </form>
   )
 }
 
-function ListTitle(props) {
-  var levelsString = ""
-  const selectedLevels = props.selectedLevels
+function FilteredSpellList(props) {
+  var levelsString = "";
+  var selectedClass = props.selectedClass;
+  var selectedType = props.selectedType;
+  var filteredSpells = props.spellList;
+  const selectedLevels = props.selectedLevels.filter(level => level.selected).map(level => level.level);
+
   for (var i=0; i<selectedLevels.length; i++) {
-    var currentLevel = selectedLevels[i]
-    if (currentLevel.selected) {
-      var level = currentLevel.level
-      level.toString()
-      if (level === "0") {
-        level = "Cantrip"
-      }
-      levelsString.concat(level, ", ")
+    var level = selectedLevels[i]
+    if (level === 0) {
+      level = "Cantrip"
+    } else {
+      level = level.toString()
     }
+    levelsString = levelsString.concat(level+', ')
   }
 
+  if (selectedClass !== '') {
+    filteredSpells = filteredSpells.filter(spell => spell.classes.map(classes => classes.name).includes(selectedClass))
+  } else {
+    selectedClass = "All";
+  }
+  if (selectedType !== '') {
+    filteredSpells = filteredSpells.filter(spell => spell.school.name === selectedType)
+  } else {
+    selectedType = "All";
+  }
+
+  filteredSpells = filteredSpells.filter(spell => selectedLevels.includes(spell.level))
+
+  const spellCards = filteredSpells.map(spell => <SpellCard details={spell}/>);
+
   return (
-    <h1>Showing spells from class: {props.selectedClass}, levels: {levelsString}, and type: {props.selectedType}</h1>
+    <div>
+      <div>
+        <h1>Showing spells from class: {selectedClass}, levels: {levelsString} and type: {selectedType}</h1>
+      </div>
+      {spellCards}
+    </div>
   )
 }
 
