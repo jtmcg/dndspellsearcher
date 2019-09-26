@@ -11,6 +11,34 @@ p {
   font-size: 16;
 }
 
+select {
+  font-family: inherit;
+  font-size: 100%;
+  color: rgb(236, 33, 30);
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 2px solid white;
+  border-radius: 5px;
+}
+
+select option:checked {
+  background: white;
+}
+
+input[type='checkbox'] {
+    -webkit-appearance:none;
+    width: 30px;
+    height: 30px;
+    background: white;
+    border-radius: 5px;
+    border:2px solid #555;
+    vertical-align: middle;
+}
+
+input[type='checkbox']:checked {
+    background: rgb(236, 33, 39);
+    border: 2px solid white;
+}
+
 .dropdown-form {
   font-family: inherit;
   min-height: 100%;
@@ -70,6 +98,10 @@ p {
 
 .level-filter {
   text-align: center;
+}
+
+.checkbox {
+  size: auto;
 }
 
 .spell-list {

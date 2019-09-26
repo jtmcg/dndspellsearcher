@@ -100,6 +100,7 @@ class App extends Component {
                 key="classSelector"
               />
             </div>
+            {" "}
             <div className="type-selector">
               <TypeSelector
                 selectedType={this.state.selectedType}
@@ -133,7 +134,7 @@ function ClassSelector(props) {
   return(
     <form className="dropdown-form">
       <label>
-      Showing Spells From Class:
+      Showing Spells From Class:{" "}
         <select value={props.selectedClass} onChange={props.changeClass}>
           <option value=''>All</option>
           <option value='Barbarian'>Barbarian</option>
@@ -166,8 +167,14 @@ function LevelToggle(props) {
 
     radioButtons.push(
       <label key={i}>
-        <input type="checkbox" value={currentLevel.level} defaultChecked={currentLevel.selected} onClick={props.toggleLevel}/>
-          {levelName}
+        {levelName}{":"}<input
+          type="checkbox"
+          value={currentLevel.level}
+          defaultChecked={currentLevel.selected}
+          onClick={props.toggleLevel}
+          className="checkbox"
+        />
+        {" "}
       </label>
     )
   }
@@ -183,7 +190,7 @@ function TypeSelector(props) {
   return (
     <form className="dropdown-form">
       <label>
-         and School (Type):
+         and School (Type):{" "}
         <select value={props.selectedType} onChange={props.changeType}>
           <option value=''>All</option>
           <option value='Abjuration'>Abjuration</option>
@@ -194,7 +201,7 @@ function TypeSelector(props) {
           <option value='Illusion'>Illusion</option>
           <option value='Necromancy'>Necromancy</option>
           <option value='Transmutation'>Transmutation</option>
-          <option value='Universal'>Universal (Wizards only)</option>
+          <option value='Universal'>Universal</option>
         </select>
       </label>
     </form>
