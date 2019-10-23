@@ -28,7 +28,7 @@ class App extends Component {
       selectedType: '',                   //used as the spell school filter, i.e. Transmutation
       spellList: [],              //used to store the list of active spells based on filters
       filteredSpells: [],              //used to store the data of each spell in the active spell list
-      url: 'http://www.dnd5eapi.co/api/spells/',
+      url: 'https://www.dnd5eapi.co/api/spells/',
     }
 
     this._changeClass = this._changeClass.bind(this);
