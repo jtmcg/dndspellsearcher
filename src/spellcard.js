@@ -1,23 +1,5 @@
 import React, {Component} from 'react';
-// import {
-//   StyleSheet,
-// } from 'react-native';
 import './index.css';
-
-// const styles = StyleSheet.create({
-//
-//   ExpandButton: {
-//     backgroundColor: 'white',
-//     padding: 10,
-//     alignSelf: 'center',
-//     borderTopLeftRadius: '5px',
-//     borderTopRightRadius: '5px',
-//     borderBottomLeftRadius: '50px',
-//     borderBottomRightRadius: '50px',
-//     minWidth: '100%',
-//   },
-//
-// })
 
 class SpellCard extends Component {
 
@@ -74,7 +56,7 @@ class SpellCard extends Component {
     const assets = require.context('./assets', true);
     const source = "./school-of-"+this.props.details.school.name+".png"
     const image = assets(source)
-    return <img src={image} className="spell-school-image"/>
+    return <img src={image} className="spell-school-image" alt="spell school"/>
   }
 
   createLineBreakFlourish() {
@@ -83,9 +65,9 @@ class SpellCard extends Component {
     const image = assets(source)
     return (
       <React.Fragment>
-        <img src={assets('./line-break-flourish-left.png')} className="line-break-flourish-left"/>
-        <img src={image} className="line-break-flourish-image"/>
-        <img src={assets('./line-break-flourish-right.png')} className="line-break-flourish-right"/>
+        <img src={assets('./line-break-flourish-left.png')} className="line-break-flourish-left" alt=""/>
+        <img src={image} className="line-break-flourish-image" alt=""/>
+        <img src={assets('./line-break-flourish-right.png')} className="line-break-flourish-right" alt=""/>
       </React.Fragment>
         )
   }

@@ -28,7 +28,7 @@ class App extends Component {
       selectedType: '',                   //used as the spell school filter, i.e. Transmutation
       spellList: [],              //used to store the list of active spells based on filters
       filteredSpells: [],              //used to store the data of each spell in the active spell list
-      url: 'https://www.dnd5eapi.co/api/spells/',
+      url: 'http://www.dnd5eapi.co/api/spells/',
     }
 
     this._changeClass = this._changeClass.bind(this);
@@ -61,7 +61,6 @@ class App extends Component {
 
   _changeClass(classChangeEvent) {
     const newClass = classChangeEvent.target.value;
-	  // TODO :: need to use updated info to filter spellList into new prop of filteredSpells
     this.setState({ selectedClass: newClass });
   }
 
@@ -70,13 +69,11 @@ class App extends Component {
     const toggledLevel = levelChangeEvent.target.value;
     const levels = this.state.selectedLevels;
     levels[toggledLevel].selected = !levels[toggledLevel].selected;
-    // TODO :: need to use updated info to filter spellList into new prop of filteredSpells
     this.setState({ selectedLevels: levels });
   }
 
   _changeType(typeChangeEvent) {
     const newType = typeChangeEvent.target.value;
-	  // TODO :: need to use updated info to filter spellList into new prop of filteredSpells
     this.setState({ selectedType: newType });
   }
 
@@ -89,7 +86,7 @@ class App extends Component {
     return(
       <div className="app-container">
         <div className="title-bar">
-          <img src={dndLogo} className="title-image"/>
+          <img src={dndLogo} className="title-image" alt="dnd logo"/>
         </div>
         <div className="filter-bar">
           <div className="class-and-type-filter">
@@ -238,7 +235,7 @@ function FilteredSpellList(props) {
 
   filteredSpells = filteredSpells.filter(spell => selectedLevels.includes(spell.level))
 
-  const spellCards = filteredSpells.map(spell => <SpellCard details={spell}/>);
+  const spellCards = filteredSpells.map(spell => <SpellCard details={spell} key={spell.name}/>);
 
   return (
     <div>
